@@ -37,6 +37,8 @@ fi
 
 if [ -n "$JQ_REPL_COPY" ]; then
   :
+elif command -v wl-copy >/dev/null && [ -n "$WAYLAND_DISPLAY" ]; then
+  JQ_REPL_COPY="wl-copy -t text/plain"
 elif command -v xclip >/dev/null && [ -n "$DISPLAY" ]; then
   JQ_REPL_COPY="xclip -in -sel clip"
 # other platforms can be supported here as needed

@@ -117,14 +117,14 @@ JQ_REPL_JQ=gojq
 
 ## Alternative clipboard copy command support
 
-By default, the <key>Ctrl-Y</key> hotkey uses `xclip` to copy the jq expression
-to the X11 clipboard, if installed and `$DISPLAY` environment variable is set.
+By default, the <key>Ctrl-Y</key> hotkey uses `wl-copy` or `xclip` to copy the
+jq expression to the Wayland or X11 clipboard, if the respective program is
+installed and `$WAYLAND_DISPLAY` or `$DISPLAY` environment variable is set.
 
 Alternatively, it is possible to provide a custom clipboard copy command by
 setting an environment variable:
 
 ```sh
-JQ_REPL_COPY="wl-copy -t text/plain"
 JQ_REPL_COPY="tmux load-buffer -"
 ```
 
