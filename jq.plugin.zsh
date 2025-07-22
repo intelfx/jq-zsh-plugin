@@ -20,12 +20,13 @@ if [[ -o zle ]]; then
     fi
   }
 
-  jq-complete() {
+  __jq-complete() {
+    local jq="${1:-${JQ_REPL_JQ:-jq}}"
     local query
-    query="$(__get_query)"
+    query="$(JQ_REPL_JQ="$jq" __get_query)"
     local ret=$?
     if [ -n "$query" ]; then
-      LBUFFER="$(__lbuffer_strip_trailing_pipe) | ${JQ_REPL_JQ:-jq}"
+      LBUFFER="$(__lbuffer_strip_trailing_pipe) | $jq"
       [[ -z "$JQ_REPL_ARGS" ]] || LBUFFER="${LBUFFER} ${JQ_REPL_ARGS}"
       LBUFFER="${LBUFFER} '$query'"
     fi
@@ -33,9 +34,18 @@ if [[ -o zle ]]; then
     return $ret
   }
 
-  zle -N jq-complete
-  # bind `alt + j` to jq-complete
-  bindkey '\ej' jq-complete
+  _jq-add-complete() {
+    local key="$1" command="$2"
+
+    local funcname="jq-complete${command+"-${command%% }"}"
+    eval "$funcname() { __jq-complete ${command+"${(q)command}"}; }"
+
+    zle -N "$funcname"
+    bindkey "$key" "$funcname"
+  }
+
+  # bind `alt + j` to jq-complete using jq
+  _jq-add-complete '\ej'
 fi
 
 export PATH=$PATH:${0:A:h}/bin

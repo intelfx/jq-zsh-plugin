@@ -1,7 +1,7 @@
 # jq zsh plugin
 
 Interactively build [jq](https://stedolan.github.io/jq/) expressions ([gojq](https://github.com/itchyny/gojq)
-is also supported).
+or any other jq-like program is also supported).
 
 This zsh plugin gives you jq superpowers!
 
@@ -106,14 +106,26 @@ During interactive querying, the following shortcuts can be used:
 | `ctrl-r`                 | Reload input                                     |
 | `ctrl-y`                 | Yank selected path to clipboard (GNU/Linux only) |
 
-## gojq support
+## Alternative tool support
 
-If you want to use an alternative `jq` implementation, like [gojq](https://github.com/itchyny/gojq) then you
-can override the default jq command used by the plugin. Set the following environment variable:
+If you want to use an alternative `jq` implementation, like [gojq](https://github.com/itchyny/gojq), then you
+can override the default jq command used by the plugin by setting an environment variable:
 
 ```sh
 JQ_REPL_JQ=gojq
 ```
+
+Additionally, multiple jq-like tools may be used at the same time with different
+keybindings. To bind a custom key sequence to an instance of the jq plugin using
+your specific command in lieu of `jq`, call the following function after loading
+the plugin:
+
+```sh
+_jq-add-complete '\ey' 'yq'
+```
+
+In this example, `\ey` is the code for <key>Alt-Y</key> sequence (also see below
+for possible gotchas), and `yq` is the custom command to run.
 
 ## Internals
 
