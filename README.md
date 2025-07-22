@@ -118,7 +118,7 @@ JQ_REPL_JQ=gojq
 ## Alternative clipboard copy command support
 
 By default, the <key>Ctrl-Y</key> hotkey uses `xclip` to copy the jq expression
-to the X11 clipboard, if installed.
+to the X11 clipboard, if installed and `$DISPLAY` environment variable is set.
 
 Alternatively, it is possible to provide a custom clipboard copy command by
 setting an environment variable:

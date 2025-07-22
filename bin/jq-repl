@@ -37,7 +37,7 @@ fi
 
 if [ -n "$JQ_REPL_COPY" ]; then
   :
-elif command -v xclip >/dev/null; then
+elif command -v xclip >/dev/null && [ -n "$DISPLAY" ]; then
   JQ_REPL_COPY="xclip -in -sel clip"
 # other platforms can be supported here as needed
 fi
