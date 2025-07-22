@@ -35,12 +35,19 @@ if [ -z "$fzf_notation" ]; then
   fzf_notation="#"
 fi
 
-# default ignore
-FZF_COPY_TO_CLIPBOARD="execute-silent(ignore)"
-
+if [ -n "$JQ_REPL_COPY" ]; then
+  :
+elif command -v xclip >/dev/null; then
+  JQ_REPL_COPY="xclip -in -sel clip"
 # other platforms can be supported here as needed
-command -v xclip > /dev/null && \
-  FZF_COPY_TO_CLIPBOARD="execute-silent(echo -n {} | xclip -in -sel clip)+abort"
+fi
+
+if [ -n "$JQ_REPL_COPY" ]; then
+  FZF_COPY_TO_CLIPBOARD="execute-silent(echo -n {} | $JQ_REPL_COPY)+abort"
+else
+  # default ignore
+  FZF_COPY_TO_CLIPBOARD="ignore"
+fi
 
 eval "$FZF_JQ_REPL_COMMAND" |
   fzf \

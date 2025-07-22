@@ -115,6 +115,21 @@ can override the default jq command used by the plugin. Set the following enviro
 JQ_REPL_JQ=gojq
 ```
 
+## Alternative clipboard copy command support
+
+By default, the <key>Ctrl-Y</key> hotkey uses `xclip` to copy the jq expression
+to the X11 clipboard, if installed.
+
+Alternatively, it is possible to provide a custom clipboard copy command by
+setting an environment variable:
+
+```sh
+JQ_REPL_COPY="wl-copy -t text/plain"
+JQ_REPL_COPY="tmux load-buffer -"
+```
+
+This command must accept the copied text on stdin.
+
 ## Internals
 
 The project consists of the following components:
